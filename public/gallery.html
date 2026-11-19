@@ -1,0 +1,3597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Melange - College Event Management Portal</title>
+
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* ==========================================================================
+       MELANGE EVENT MANAGEMENT PORTAL - MOBILE-FIRST STYLES
+       Faithful to Official Figma UI Designs
+       ========================================================================== */
+    :root {
+      --primary-purple: #1e1149;
+      --deep-purple-gradient: linear-gradient(180deg, #1f0b4d 0%, #0d1b4c 100%);
+      --accent-gold: #e5a93c;
+      --accent-gold-dark: #b87d19;
+      --accent-gold-light: #fbe29f;
+      --melange-gold: #d89b34;
+      --melange-blue: #1d4ed8;
+      --melange-purple-btn: #4c1d95;
+      --melange-purple-btn-gradient: linear-gradient(135deg, #44177d 0%, #5b21b6 100%);
+      --melange-blue-btn-gradient: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      --bg-gray: #f8fafc;
+      --card-bg: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --text-sub: #475569;
+      --border-light: #e2e8f0;
+      --badge-green-bg: #dcfce7;
+      --badge-green-text: #15803d;
+      --badge-amber-bg: #fef3c7;
+      --badge-amber-text: #b45309;
+      --badge-red-bg: #fee2e2;
+      --badge-red-text: #b91c1c;
+      --badge-gray-bg: #f1f5f9;
+      --badge-gray-text: #475569;
+      --phone-width: 380px;
+      --phone-height: 800px;
+      /* safe-area fallback for notch phones */
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      /* Prevent elastic bounce scroll from showing background on iOS */
+      background: #0b0f19;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: #0b0f19;
+      color: var(--text-dark);
+      /* Use dvh (dynamic viewport height) so iOS Safari address bar is accounted for */
+      min-height: 100vh;
+      min-height: 100dvh;
+      height: 100dvh;
+      overflow: hidden;         /* body itself does NOT scroll — inner screen-viewport does */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Desktop Presentation Bar */
+    .desktop-topbar {
+      background: #111827;
+      border-bottom: 1px solid #1f2937;
+      color: #f3f4f6;
+      padding: 10px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 1000;
+      position: sticky;
+      top: 0;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-spark {
+      color: #f59e0b;
+      font-size: 1.25rem;
+    }
+
+    .brand-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-badge {
+      background: #374151;
+      color: #fbbf24;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+
+    .controls-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ctrl-pill-btn {
+      background: #1f2937;
+      border: 1px solid #374151;
+      color: #e5e7eb;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .ctrl-pill-btn:hover {
+      background: #374151;
+      color: #ffffff;
+    }
+
+    .ctrl-pill-btn.active {
+      background: #4f46e5;
+      border-color: #6366f1;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .ctrl-pill-btn.gold-active {
+      background: #b45309;
+      border-color: #f59e0b;
+      color: #ffffff;
+    }
+
+    .view-select {
+      background: #1f2937;
+      border: 1px solid #374151;
+      color: #e5e7eb;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Main Presentation Stage */
+    .presentation-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 10px 40px;
+      background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0b0f19 80%);
+      /* Fill remaining height after the sticky top bar */
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* Single Smartphone Frame */
+    .phone-simulator-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: var(--phone-width);
+      height: var(--phone-height);
+      background: #000000;
+      border-radius: 44px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 10px #1e293b, 0 0 0 12px #334155;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+    }
+
+    /* ---- On real phones: strip the bezel and fill 100% screen ---- */
+    @media (max-width: 500px) {
+      body {
+        overflow: hidden;
+      }
+
+      .desktop-topbar {
+        /* hide the desktop control bar on actual phones */
+        display: none;
+      }
+
+      .presentation-stage {
+        padding: 0;
+        background: #f8fafc;
+        /* fill the full viewport with no gaps */
+        flex: 1;
+        align-items: stretch;
+        justify-content: stretch;
+        min-height: 0;
+      }
+
+      .phone-simulator-wrapper {
+        max-width: 100vw;
+        width: 100%;
+        /* Use dynamic viewport height so Safari address-bar is included */
+        height: 100dvh;
+        min-height: 100dvh;
+        border-radius: 0;
+        box-shadow: none;
+      }
+    }
+
+    /* Phone Status Bar (12:30, WiFi, Battery) */
+    .phone-status-bar {
+      height: 36px;
+      padding: 8px 18px 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 700;
+      z-index: 100;
+      flex-shrink: 0;
+      user-select: none;
+      color: #0f172a;
+      background: transparent;
+    }
+
+    .phone-status-bar.dark-status {
+      color: #ffffff;
+    }
+
+    .status-notch-cam {
+      width: 12px;
+      height: 12px;
+      background: #000000;
+      border-radius: 50%;
+      box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.4);
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.7rem;
+    }
+
+    /* Screen Viewport — fills all space between status bar and bottom nav */
+    .screen-viewport {
+      flex: 1;
+      min-height: 0;          /* critical: allows flex child to shrink below content height */
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: #f8fafc;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;  /* prevent pull-to-refresh interfering */
+    }
+
+    .screen-viewport::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Phone Bottom Home Bar */
+    .phone-home-indicator {
+      height: 16px;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 90;
+      pointer-events: none;
+    }
+
+    .home-indicator-pill {
+      width: 120px;
+      height: 4px;
+      background: #94a3b8;
+      border-radius: 9999px;
+    }
+
+    .home-indicator-pill.dark-bar {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* ==========================================================================
+       LOGO STYLING
+       ========================================================================== */
+    .melange-brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .melange-logo-text {
+      font-family: 'Great Vibes', cursive, 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #d89b34;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 70%, #92400e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      letter-spacing: 0.5px;
+    }
+
+    .melange-logo-spark {
+      display: inline-block;
+      margin-left: -4px;
+      margin-bottom: 12px;
+      color: #f59e0b;
+      filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.4));
+    }
+
+    .melange-logo-text.light-gold {
+      background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ==========================================================================
+       AUTHENTICATION SCREENS (BOARD 1)
+       ========================================================================== */
+    .splash-container {
+      flex: 1;
+      background: linear-gradient(180deg, #1c0d45 0%, #0d1b4c 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 24px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .splash-glow {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(234, 179, 8, 0.15) 0%, transparent 70%);
+      top: 25%;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .splash-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      margin-top: 80px;
+    }
+
+    .portal-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #fef08a;
+      font-weight: 700;
+      margin-top: 4px;
+      margin-bottom: 60px;
+    }
+
+    .spinner-ring {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(255, 255, 255, 0.15);
+      border-top-color: #eab308;
+      border-radius: 50%;
+      animation: ringSpin 0.9s linear infinite;
+      margin-top: 10px;
+    }
+
+    @keyframes ringSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .splash-footer-text {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    /* Login Screen */
+    .auth-page {
+      flex: 1;
+      background: #fbfbfe;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 24px;
+    }
+
+    .auth-header-center {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 24px;
+    }
+
+    .auth-welcome-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+
+    .auth-welcome-sub {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .input-field-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon-left {
+      position: absolute;
+      left: 14px;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    .input-icon-right {
+      position: absolute;
+      right: 14px;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .melange-input {
+      width: 100%;
+      height: 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0 42px 0 42px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: #0f172a;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .melange-input:focus {
+      background: #ffffff;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    }
+
+    .show-password-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: #64748b;
+      margin-top: -6px;
+      margin-bottom: 24px;
+    }
+
+    .btn-melange-purple {
+      width: 100%;
+      height: 48px;
+      background: var(--melange-purple-btn-gradient);
+      color: #ffffff;
+      border: none;
+      border-radius: 9999px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 20px -4px rgba(76, 29, 149, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-melange-purple:active {
+      transform: scale(0.98);
+      filter: brightness(0.95);
+    }
+
+    .btn-melange-blue {
+      width: 100%;
+      height: 48px;
+      background: var(--melange-blue-btn-gradient);
+      color: #ffffff;
+      border: none;
+      border-radius: 9999px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 20px -4px rgba(29, 78, 216, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-melange-blue:active {
+      transform: scale(0.98);
+    }
+
+    .link-forgot {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: #64748b;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .link-forgot:hover {
+      color: #4f46e5;
+    }
+
+    /* Role Selection Screen */
+    .role-select-page {
+      flex: 1;
+      background: #f8fafc;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .role-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 24px;
+      color: #0f172a;
+    }
+
+    .role-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+      border: 1px solid #f1f5f9;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .role-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .role-icon-admin {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fef3c7;
+    }
+
+    .role-icon-gs {
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #dbeafe;
+    }
+
+    .role-card-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .role-card-desc {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 18px;
+    }
+
+    /* Password Reset Screen */
+    .reset-page {
+      flex: 1;
+      background: #ffffff;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .reset-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      text-align: center;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .reset-desc {
+      font-size: 0.82rem;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.4;
+      margin-bottom: 28px;
+      padding: 0 10px;
+    }
+
+    .alert-success-banner {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: #065f46;
+      font-weight: 600;
+      margin-top: 24px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    }
+
+    /* ==========================================================================
+       APP HEADERS & TOP NAVIGATION
+       ========================================================================== */
+    .app-screen-header {
+      padding: 12px 18px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f5f9;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .header-brand-title {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .header-brand-title h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #1e1b4b;
+    }
+
+    .header-brand-title span.role-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn-round {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .red-dot-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 7px;
+      height: 7px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 1px solid #ffffff;
+    }
+
+    .user-avatar-gs {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #475569;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Sub-bar for GS scope notice */
+    .gs-scope-notice {
+      background: #f1f5f9;
+      padding: 4px 16px;
+      font-size: 0.68rem;
+      color: #64748b;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ==========================================================================
+       ADMIN DASHBOARD (BOARD 2)
+       ========================================================================== */
+    .greeting-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 16px 18px 12px;
+    }
+
+    .stats-2x2-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 0 16px 16px;
+    }
+
+    .stat-card-colored {
+      border-radius: 16px;
+      padding: 16px 14px;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 102px;
+      box-shadow: 0 8px 18px -4px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card-blue {
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+    }
+
+    .stat-card-purple {
+      background: linear-gradient(135deg, #4c1d95 0%, #6b21a8 100%);
+    }
+
+    .stat-card-navy {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%);
+    }
+
+    .stat-card-gold {
+      background: linear-gradient(135deg, #b45309 0%, #d97706 100%);
+    }
+
+    .stat-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.15rem;
+      opacity: 0.9;
+    }
+
+    .stat-card-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      opacity: 0.9;
+      margin-top: 8px;
+    }
+
+    .stat-card-val {
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-top: 2px;
+    }
+
+    /* Quick Actions */
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0f172a;
+      padding: 0 18px 8px;
+    }
+
+    .quick-actions-row {
+      display: flex;
+      gap: 10px;
+      padding: 0 16px 20px;
+    }
+
+    .btn-quick-action {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      transition: all 0.15s ease;
+    }
+
+    .btn-quick-action:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    /* College List Cards (Image 2) */
+    .college-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 0 16px 12px;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    }
+
+    .college-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .college-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .badge-pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .badge-active {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .badge-pending {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .badge-closed {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .badge-full {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .college-subtext {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .college-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: #475569;
+      margin-bottom: 14px;
+    }
+
+    .card-actions-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-card-action {
+      flex: 1;
+      height: 32px;
+      border-radius: 9999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      transition: all 0.15s ease;
+    }
+
+    .btn-card-action.blue-fill {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+      color: #ffffff;
+    }
+
+    .btn-card-action.blue-fill:hover {
+      background: #1e40af;
+    }
+
+    .btn-card-action.red-outline {
+      border-color: #fca5a5;
+      color: #dc2626;
+    }
+
+    .btn-card-action.red-outline:hover {
+      background: #fee2e2;
+    }
+
+    .btn-card-action.red-fill {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .btn-card-action.green-fill {
+      background: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       GS PORTAL (BOARD 3)
+       ========================================================================== */
+    .college-chip-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1d4ed8;
+      color: #ffffff;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin: 0 18px 14px;
+    }
+
+    .gs-stats-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 16px;
+      margin: 0 16px 16px;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    }
+
+    .gs-stats-header {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+
+    .gs-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .gs-stat-box {
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .gs-stat-title {
+      font-size: 0.7rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .gs-stat-number {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 2px;
+    }
+
+    .circular-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .circular-svg {
+      width: 44px;
+      height: 44px;
+      transform: rotate(-90deg);
+    }
+
+    .circular-bg {
+      fill: none;
+      stroke: #e2e8f0;
+      stroke-width: 4;
+    }
+
+    .circular-fill {
+      fill: none;
+      stroke: #7c3aed;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 100;
+      stroke-dashoffset: 25; /* 75% */
+      transition: stroke-dashoffset 0.6s ease;
+    }
+
+    /* Event Slot Cards (Image 3) */
+    .event-slot-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 0 16px 12px;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    }
+
+    .event-slot-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .event-slot-desc {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin: 4px 0 6px;
+    }
+
+    .event-slot-count {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 12px;
+    }
+
+    .btn-gold-add-slot {
+      width: 100%;
+      height: 38px;
+      background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+    }
+
+    .btn-gold-add-slot:active {
+      transform: scale(0.98);
+    }
+
+    /* Reports Download Box */
+    .reports-card-box {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 0 16px 20px;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    }
+
+    .btn-download-pdf-excel {
+      width: 100%;
+      height: 42px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-download-pdf-excel:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    /* ==========================================================================
+       FORMS & INPUTS (ADD PARTICIPANT & CREATE EVENT)
+       ========================================================================== */
+    .form-page-container {
+      flex: 1;
+      padding: 16px 18px 24px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-header-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .form-header-bar h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .form-field-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-select {
+      width: 100%;
+      height: 44px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0 12px;
+      font-size: 0.85rem;
+      color: #0f172a;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .form-textarea {
+      width: 100%;
+      height: 70px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: #0f172a;
+      outline: none;
+      font-family: inherit;
+      resize: none;
+    }
+
+    .pills-selector-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .pill-select-opt {
+      flex: 1;
+      height: 36px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      background: #f8fafc;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .pill-select-opt.selected {
+      background: #dbeafe;
+      border-color: #93c5fd;
+      color: #1d4ed8;
+    }
+
+    .stepper-counter-box {
+      display: flex;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      height: 44px;
+      padding: 0 4px;
+    }
+
+    .stepper-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: none;
+      background: #e2e8f0;
+      color: #1e293b;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stepper-val {
+      flex: 1;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* Floating Action Button (+) */
+    .fab-btn-plus {
+      position: absolute;
+      bottom: 84px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      background: #1d4ed8;
+      color: #ffffff;
+      border-radius: 50%;
+      border: none;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 20px rgba(29, 78, 216, 0.4);
+      cursor: pointer;
+      z-index: 45;
+      transition: all 0.2s ease;
+    }
+
+    .fab-btn-plus:hover {
+      transform: scale(1.08);
+    }
+
+    /* Category list item */
+    .category-row-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin: 0 16px 10px;
+      border: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Bottom Navigation Bar — fixed to bottom of phone frame */
+    .mobile-bottom-navbar {
+      height: 56px;
+      /* Add safe area so content is not behind iPhone home indicator */
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      /* Increase total height by safe area on notch phones */
+      min-height: calc(56px + env(safe-area-inset-bottom, 0px));
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      border-top: 1px solid #1e293b;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+
+    .nav-tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 0.65rem;
+      font-weight: 600;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      height: 100%;
+      transition: all 0.15s ease;
+    }
+
+    .nav-tab-item i {
+      font-size: 1rem;
+    }
+
+    .nav-tab-item.active {
+      color: #ffffff;
+    }
+
+    .nav-tab-item.active i {
+      color: #fbbf24;
+    }
+
+    /* Modal Sheet Styling */
+    .modal-backdrop-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(2px);
+      z-index: 200;
+      display: flex;
+      align-items: flex-end;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal-bottom-sheet {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 24px 24px 0 0;
+      padding: 20px 20px 28px;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 85%;
+      overflow-y: auto;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-drag-handle {
+      width: 40px;
+      height: 4px;
+      background: #cbd5e1;
+      border-radius: 9999px;
+      margin: 0 auto 14px;
+    }
+
+    /* Filter Option Badges */
+    .filter-options-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .filter-pill-checkbox {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-pill-checkbox.checked {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      color: #1d4ed8;
+      font-weight: 700;
+    }
+
+    /* Empty State View */
+    .empty-state-view {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 24px;
+      text-align: center;
+    }
+
+    .empty-doc-illustration {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 10px 15px rgba(99, 102, 241, 0.15));
+    }
+
+    .empty-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .empty-desc {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 20px;
+      max-width: 240px;
+      line-height: 1.4;
+    }
+
+    /* Gallery Mode Grid */
+    .gallery-stage {
+      display: none;
+      width: 100%;
+      padding: 30px 20px;
+      overflow-x: auto;
+    }
+
+    .gallery-board-title {
+      color: #f8fafc;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .gallery-board-sub {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .gallery-4cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      max-width: 1440px;
+      margin: 0 auto 40px;
+    }
+
+    .gallery-phone-card {
+      background: #000000;
+      border-radius: 36px;
+      height: 680px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 6px #1e293b;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gallery-screen-label {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    /* Floating Toast */
+    .app-toast-box {
+      position: absolute;
+      top: 50px;
+      left: 18px;
+      right: 18px;
+      background: #1e293b;
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      z-index: 300;
+      animation: slideDown 0.25s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP CONTROL BAR FOR USER INSPECTION & DATA TOGGLING
+       ======================================================================== -->
+  <header class="desktop-topbar">
+    <div class="brand-group">
+      <i class="fa-solid fa-wand-magic-sparkles brand-spark"></i>
+      <span class="brand-title">MELANGE '26 UI</span>
+      <span class="brand-badge">College Fest Portal</span>
+    </div>
+
+    <!-- Data Mode Toggle & Role & View Selectors -->
+    <div class="controls-group">
+      <!-- Data Mode Toggle -->
+      <button id="toggleDataBtn" class="ctrl-pill-btn active" title="Switch between Empty (Without Data) and Sample Preview Data">
+        <i class="fa-solid fa-database"></i>
+        <span id="dataModeLabel">Mode: Without Data (Clean)</span>
+      </button>
+
+      <!-- Role Switcher -->
+      <button id="switchRoleBtn" class="ctrl-pill-btn" title="Toggle current user role">
+        <i class="fa-solid fa-user-shield"></i>
+        <span id="roleLabel">Role: Admin</span>
+      </button>
+
+      <!-- View Selector -->
+      <select id="screenJumpSelect" class="view-select" title="Jump directly to any screen">
+        <optgroup label="Board 1: Authentication">
+          <option value="splash">1. Splash Screen</option>
+          <option value="login">2. Login Screen</option>
+          <option value="role_select">3. Role Based Login</option>
+          <option value="reset_password">4. Password Reset</option>
+        </optgroup>
+        <optgroup label="Board 2: Admin Portal">
+          <option value="admin_dashboard" selected>5. Admin Dashboard</option>
+          <option value="admin_colleges">6. College Management</option>
+          <option value="admin_events">7. Admin Event Management</option>
+          <option value="admin_regs">8. Registrations Overview</option>
+        </optgroup>
+        <optgroup label="Board 3: College GS Portal">
+          <option value="gs_dashboard">9. GS Dashboard Home</option>
+          <option value="gs_participants">10. Participant Management</option>
+          <option value="gs_add_participant">11. Add New Participant</option>
+          <option value="gs_reports">12. Events & Reports</option>
+        </optgroup>
+        <optgroup label="Board 4: Events & CRUD">
+          <option value="events_crud">13. Events List & Category Filter</option>
+          <option value="create_event">14. Create New Event</option>
+          <option value="categories">15. Event Categories</option>
+          <option value="delete_modal">16. Delete Event Dialog</option>
+        </optgroup>
+        <optgroup label="Board 5: Registrations & Filters">
+          <option value="regs_list">17. Registrations List View</option>
+          <option value="filter_modal">18. Filter & Sort Modal</option>
+          <option value="reg_details">19. Registration Details</option>
+          <option value="empty_state">20. Empty State Screen</option>
+        </optgroup>
+      </select>
+
+      <!-- Gallery Mode Switcher -->
+      <button id="galleryToggleBtn" class="ctrl-pill-btn" title="View all screens side-by-side like Figma boards">
+        <i class="fa-solid fa-table-cells-large"></i>
+        <span>Gallery Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       SINGLE SMARTPHONE SIMULATOR (DEFAULT INTERACTIVE STAGE)
+       ======================================================================== -->
+  <main id="singlePhoneStage" class="presentation-stage">
+    <div class="phone-simulator-wrapper">
+
+      <!-- Toast Notification Alert -->
+      <div id="toastBox" class="app-toast-box" style="display: none;">
+        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+        <span id="toastMsg">Action completed successfully</span>
+      </div>
+
+      <!-- Android Top Status Bar -->
+      <div id="phoneStatusBar" class="phone-status-bar">
+        <span>12:30</span>
+        <div class="status-notch-cam"></div>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-full"></i>
+        </div>
+      </div>
+
+      <!-- Scrollable Screen Viewport -->
+      <div id="screenViewport" class="screen-viewport">
+        <!-- Screens are rendered dynamically here -->
+      </div>
+
+      <!-- Bottom Navigation Bar (Shown on Dashboard & Management screens) -->
+      <nav id="mobileBottomNav" class="mobile-bottom-navbar">
+        <!-- Nav items dynamically injected according to role & screen -->
+      </nav>
+
+      <!-- Android Home Indicator Pill -->
+      <div id="homeIndicatorWrap" class="phone-home-indicator">
+        <div id="homeIndicatorPill" class="home-indicator-pill"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       GALLERY STAGE (SHOWS ALL 5 BOARDS SIDE-BY-SIDE LIKE FIGMA BOARDS)
+       ======================================================================== -->
+  <div id="galleryStage" class="gallery-stage">
+    <div id="galleryContainer"></div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL BOTTOM SHEETS (FILTER & SORT, DELETE CONFIRMATION, ANNOUNCE)
+       ======================================================================== -->
+  <div id="activeModalOverlay" class="modal-backdrop-dim" style="display: none;" onclick="App.closeModal(event)">
+    <div id="activeModalContent" class="modal-bottom-sheet" onclick="event.stopPropagation()">
+      <!-- Injected modal content -->
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       APPLICATION JAVASCRIPT & STATE ENGINE
+       ======================================================================== -->
+  <script>
+    /**
+     * Melange College Fest Portal - Mobile UI State Engine
+     * Pure Client-Side, Works Standalone "Without Data" or "With Sample Data"
+     */
+    const App = {
+      // Configuration & State
+      state: {
+        mode: 'without_data', // 'without_data' | 'with_data'
+        currentRole: 'admin', // 'admin' | 'gs'
+        currentScreen: 'admin_dashboard', // active screen ID
+        isGalleryMode: false,
+        passwordShown: false,
+        activeCategoryFilter: true,
+        selectedCategory: 'all',
+        searchQuery: '',
+        activeFilters: {
+          colleges: ['All Colleges'],
+          events: [],
+          years: [],
+          statuses: ['Pending', 'Approved']
+        },
+        selectedRegistration: null,
+        deletingEvent: null,
+        // Dynamic In-Memory Store
+        data: {
+          colleges: [],
+          events: [],
+          participants: [],
+          registrations: [],
+          categories: []
+        }
+      },
+
+      // Sample Data Mockup (Matches the 5 Uploaded Images Exactly)
+      sampleData: {
+        colleges: [
+          { id: 'c1', name: "St. Xavier's College", status: 'Active', gs: 'Rahul Sharma (GS)', participants: 142 },
+          { id: 'c2', name: 'IIT Bombay', status: 'Active', gs: 'Sneha Patel (GS)', participants: 98 },
+          { id: 'c3', name: 'KJ Somaiya College', status: 'Active', gs: 'Aditya Patil (GS)', participants: 64 },
+          { id: 'c4', name: 'Mithibai College', status: 'Active', gs: 'Rhea Joshi (GS)', participants: 85 }
+        ],
+        events: [
+          {
+            id: 'e1',
+            name: 'Battle of the Bands',
+            category: 'Music & Dance',
+            categoryKey: 'music',
+            date: 'Feb 22, 2026',
+            time: '10:00 AM',
+            venue: 'Main Amphitheatre',
+            status: 'Open',
+            statusBadge: 'Registration Open',
+            badgeClass: 'badge-active',
+            slotsUsed: 2,
+            slotsTotal: 5,
+            icon: 'fa-solid fa-music',
+            iconColor: '#7c3aed',
+            desc: 'Heavy metal and rock bands battle for the ultimate trophy.'
+          },
+          {
+            id: 'e2',
+            name: 'Fashion Show',
+            category: 'Fashion & Art',
+            categoryKey: 'fashion',
+            date: 'Feb 23, 2026',
+            time: '02:00 PM',
+            venue: 'Grand Auditorium',
+            status: 'Full',
+            statusBadge: 'Registration Closed',
+            badgeClass: 'badge-closed',
+            slotsUsed: 5,
+            slotsTotal: 10,
+            icon: 'fa-solid fa-pen-ruler',
+            iconColor: '#2563eb',
+            desc: 'Thematic ramp walk and haute couture college styling.'
+          },
+          {
+            id: 'e3',
+            name: 'Street Play',
+            category: 'Drama',
+            categoryKey: 'drama',
+            date: 'Feb 24, 2026',
+            time: '11:30 AM',
+            venue: 'College Quadrangle',
+            status: 'Closed',
+            statusBadge: 'Registration Closed',
+            badgeClass: 'badge-closed',
+            slotsUsed: 4,
+            slotsTotal: 4,
+            icon: 'fa-solid fa-masks-theater',
+            iconColor: '#9333ea',
+            desc: 'Social awareness street nukkad natak performances.'
+          },
+          {
+            id: 'e4',
+            name: 'LAN Gaming',
+            category: 'Gaming',
+            categoryKey: 'gaming',
+            date: 'Feb 22, 2026',
+            time: '01:00 PM',
+            venue: 'Tech Arena Lab 3',
+            status: 'Open',
+            statusBadge: 'Registration Open',
+            badgeClass: 'badge-active',
+            slotsUsed: 8,
+            slotsTotal: 16,
+            icon: 'fa-solid fa-gamepad',
+            iconColor: '#059669',
+            desc: 'Valorant & FIFA 26 collegiate championship.'
+          }
+        ],
+        categories: [
+          { id: 'cat1', name: 'Music & Dance', count: 5, icon: 'fa-music' },
+          { id: 'cat2', name: 'Fashion & Art', count: 3, icon: 'fa-pen-ruler' },
+          { id: 'cat3', name: 'Drama', count: 4, icon: 'fa-masks-theater' },
+          { id: 'cat4', name: 'Gaming', count: 2, icon: 'fa-gamepad' }
+        ],
+        participants: [
+          {
+            id: 'p1',
+            name: 'Aarav Mehta',
+            college: "St. Xavier's College",
+            dept: 'Computer Science',
+            year: '3rd Year',
+            phone: '+91 98765 43210',
+            email: 'aarav@example.com',
+            event: 'Battle of the Bands',
+            status: 'Pending'
+          },
+          {
+            id: 'p2',
+            name: 'Pooja Roy',
+            college: 'IIT Bombay',
+            dept: 'BMM',
+            year: '2nd Year',
+            phone: '+91 98765 11223',
+            email: 'pooja.roy@iitb.ac.in',
+            event: 'Fashion Show',
+            status: 'Approved'
+          }
+        ],
+        registrations: [
+          {
+            id: 'reg1',
+            studentName: 'Aarav Mehta',
+            initials: 'AM',
+            college: "St. Xavier's College",
+            studentId: 'SX-2026-405',
+            event: 'Battle of the Bands',
+            email: 'aarav.m@email.com',
+            phone: '+91 98765 43210',
+            year: '3rd Year',
+            dept: 'Computer Science',
+            status: 'Pending',
+            statusClass: 'badge-pending'
+          },
+          {
+            id: 'reg2',
+            studentName: 'Priya Sharma',
+            initials: 'PS',
+            college: 'IIT Bombay',
+            studentId: 'IITB-26-102',
+            event: 'Fashion Show',
+            email: 'priya.s@iitb.ac.in',
+            phone: '+91 98112 33445',
+            year: '2nd Year',
+            dept: 'Design & Arts',
+            status: 'Approved',
+            statusClass: 'badge-active'
+          },
+          {
+            id: 'reg3',
+            studentName: 'Rohan Das',
+            initials: 'RD',
+            college: 'KJ Somaiya',
+            studentId: 'KJS-26-789',
+            event: 'Street Play',
+            email: 'rohan.das@somaiya.edu',
+            phone: '+91 97654 32109',
+            year: '4th Year',
+            dept: 'Commerce',
+            status: 'Rejected',
+            statusClass: 'badge-full'
+          }
+        ]
+      },
+
+      // Initialize App
+      init() {
+        this.loadMode();
+        this.bindEvents();
+        this.render();
+      },
+
+      loadMode() {
+        if (this.state.mode === 'with_data') {
+          this.state.data = JSON.parse(JSON.stringify(this.sampleData));
+        } else {
+          // Without data mode: empty lists as requested
+          this.state.data = {
+            colleges: [],
+            events: [],
+            categories: [
+              { id: 'cat1', name: 'Music & Dance', count: 0, icon: 'fa-music' },
+              { id: 'cat2', name: 'Fashion & Art', count: 0, icon: 'fa-pen-ruler' },
+              { id: 'cat3', name: 'Drama', count: 0, icon: 'fa-masks-theater' },
+              { id: 'cat4', name: 'Gaming', count: 0, icon: 'fa-gamepad' }
+            ],
+            participants: [],
+            registrations: []
+          };
+        }
+      },
+
+      bindEvents() {
+        // Toggle Without Data vs With Data
+        document.getElementById('toggleDataBtn').addEventListener('click', () => {
+          this.state.mode = (this.state.mode === 'without_data') ? 'with_data' : 'without_data';
+          this.loadMode();
+          document.getElementById('dataModeLabel').innerText = (this.state.mode === 'without_data')
+            ? 'Mode: Without Data (Clean)'
+            : 'Mode: With Sample Data';
+          document.getElementById('toggleDataBtn').classList.toggle('gold-active', this.state.mode === 'with_data');
+          this.showToast((this.state.mode === 'without_data') ? 'Clean state: 0 data loaded' : 'Sample design data loaded');
+          this.render();
+        });
+
+        // Switch Role
+        document.getElementById('switchRoleBtn').addEventListener('click', () => {
+          this.state.currentRole = (this.state.currentRole === 'admin') ? 'gs' : 'admin';
+          document.getElementById('roleLabel').innerText = `Role: ${this.state.currentRole === 'admin' ? 'Admin' : 'College GS'}`;
+          this.state.currentScreen = (this.state.currentRole === 'admin') ? 'admin_dashboard' : 'gs_dashboard';
+          document.getElementById('screenJumpSelect').value = this.state.currentScreen;
+          this.showToast(`Switched view to ${this.state.currentRole.toUpperCase()}`);
+          this.render();
+        });
+
+        // Jump to screen from select
+        document.getElementById('screenJumpSelect').addEventListener('change', (e) => {
+          this.navigateTo(e.target.value);
+        });
+
+        // Gallery Mode toggle
+        document.getElementById('galleryToggleBtn').addEventListener('click', () => {
+          this.state.isGalleryMode = !this.state.isGalleryMode;
+          document.getElementById('galleryToggleBtn').classList.toggle('active', this.state.isGalleryMode);
+          if (this.state.isGalleryMode) {
+            document.getElementById('singlePhoneStage').style.display = 'none';
+            document.getElementById('galleryStage').style.display = 'block';
+            this.renderGallery();
+          } else {
+            document.getElementById('singlePhoneStage').style.display = 'flex';
+            document.getElementById('galleryStage').style.display = 'none';
+            this.render();
+          }
+        });
+      },
+
+      navigateTo(screenId) {
+        this.state.currentScreen = screenId;
+        document.getElementById('screenJumpSelect').value = screenId;
+        // Auto update role if jumping to role-specific screens
+        if (screenId.startsWith('admin_')) this.state.currentRole = 'admin';
+        if (screenId.startsWith('gs_')) this.state.currentRole = 'gs';
+        document.getElementById('roleLabel').innerText = `Role: ${this.state.currentRole === 'admin' ? 'Admin' : 'College GS'}`;
+        this.closeModal();
+        this.render();
+      },
+
+      showToast(msg) {
+        const box = document.getElementById('toastBox');
+        document.getElementById('toastMsg').innerText = msg;
+        box.style.display = 'flex';
+        setTimeout(() => { box.style.display = 'none'; }, 3200);
+      },
+
+      closeModal(e) {
+        if (e) e.stopPropagation();
+        document.getElementById('activeModalOverlay').style.display = 'none';
+      },
+
+      openModal(html) {
+        document.getElementById('activeModalContent').innerHTML = html;
+        document.getElementById('activeModalOverlay').style.display = 'flex';
+      },
+
+      // Export / Download CSV File for Reports
+      downloadParticipantRoster() {
+        const list = (this.state.data.participants.length > 0)
+          ? this.state.data.participants
+          : this.sampleData.participants;
+
+        let csv = "Student Name,College,Department,Academic Year,Event,Phone,Email,Status\n";
+        list.forEach(p => {
+          csv += `"${p.name}","${p.college}","${p.dept}","${p.year}","${p.event}","${p.phone}","${p.email}","${p.status}"\n`;
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "Melange26_Participant_Roster_StXaviers.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        this.showToast("Roster CSV downloaded successfully!");
+      },
+
+      // ======================================================================
+      // RENDER CORE
+      // ======================================================================
+      render() {
+        const viewport = document.getElementById('screenViewport');
+        const statusBar = document.getElementById('phoneStatusBar');
+        const bottomNav = document.getElementById('mobileBottomNav');
+        const homePill = document.getElementById('homeIndicatorPill');
+
+        // Dark or light status bar based on screen
+        if (this.state.currentScreen === 'splash') {
+          statusBar.className = 'phone-status-bar dark-status';
+          homePill.className = 'home-indicator-pill dark-bar';
+          bottomNav.style.display = 'none';
+        } else {
+          statusBar.className = 'phone-status-bar';
+          homePill.className = 'home-indicator-pill';
+        }
+
+        // Render target screen HTML
+        let html = '';
+        switch (this.state.currentScreen) {
+          case 'splash':
+            html = this.views.splash();
+            bottomNav.style.display = 'none';
+            break;
+          case 'login':
+            html = this.views.login();
+            bottomNav.style.display = 'none';
+            break;
+          case 'role_select':
+            html = this.views.roleSelect();
+            bottomNav.style.display = 'none';
+            break;
+          case 'reset_password':
+            html = this.views.resetPassword();
+            bottomNav.style.display = 'none';
+            break;
+          case 'admin_dashboard':
+            html = this.views.adminDashboard();
+            this.renderBottomNav('admin');
+            break;
+          case 'admin_colleges':
+            html = this.views.adminColleges();
+            this.renderBottomNav('admin', 'colleges');
+            break;
+          case 'admin_events':
+            html = this.views.adminEvents();
+            this.renderBottomNav('admin', 'events');
+            break;
+          case 'admin_regs':
+            html = this.views.adminRegs();
+            this.renderBottomNav('admin', 'regs');
+            break;
+          case 'gs_dashboard':
+            html = this.views.gsDashboard();
+            this.renderBottomNav('gs', 'home');
+            break;
+          case 'gs_participants':
+            html = this.views.gsParticipants();
+            this.renderBottomNav('gs', 'participants');
+            break;
+          case 'gs_add_participant':
+            html = this.views.gsAddParticipant();
+            this.renderBottomNav('gs', 'participants');
+            break;
+          case 'gs_reports':
+            html = this.views.gsReports();
+            this.renderBottomNav('gs', 'reports');
+            break;
+          case 'events_crud':
+            html = this.views.eventsCrud();
+            this.renderBottomNav('events_module', 'events');
+            break;
+          case 'create_event':
+            html = this.views.createEvent();
+            this.renderBottomNav('events_module', 'create');
+            break;
+          case 'categories':
+            html = this.views.categories();
+            this.renderBottomNav('events_module', 'categories');
+            break;
+          case 'regs_list':
+            html = this.views.regsList();
+            this.renderBottomNav('regs_module', 'regs');
+            break;
+          case 'reg_details':
+            html = this.views.regDetails();
+            bottomNav.style.display = 'none';
+            break;
+          case 'empty_state':
+            html = this.views.emptyState();
+            this.renderBottomNav('regs_module', 'regs');
+            break;
+          default:
+            html = this.views.adminDashboard();
+            this.renderBottomNav('admin');
+        }
+
+        viewport.innerHTML = html;
+        viewport.scrollTop = 0;
+      },
+
+      // Render Bottom Navigation Bar
+      renderBottomNav(group, activeTab = 'home') {
+        const nav = document.getElementById('mobileBottomNav');
+        nav.style.display = 'flex';
+
+        if (group === 'admin') {
+          nav.innerHTML = `
+            <div class="nav-tab-item ${activeTab === 'home' ? 'active' : ''}" onclick="App.navigateTo('admin_dashboard')">
+              <i class="fa-solid fa-house"></i>
+              <span>Home</span>
+            </div>
+            <div class="nav-tab-item ${activeTab === 'colleges' ? 'active' : ''}" onclick="App.navigateTo('admin_colleges')">
+              <i class="fa-solid fa-building-columns"></i>
+              <span>Colleges</span>
+            </div>
+            <div class="nav-tab-item ${activeTab === 'events' ? 'active' : ''}" onclick="App.navigateTo('admin_events')">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span>Events</span>
+            </div>
+            <div class="nav-tab-item ${activeTab === 'regs' ? 'active' : ''}" onclick="App.navigateTo('admin_regs')">
+              <i class="fa-solid fa-list-check"></i>
+              <span>Regs</span>
+            </div>
+            <div class="nav-tab-item" onclick="App.navigateTo('gs_reports')">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Reports</span>
+            </div>
+            <div class="nav-tab-item" onclick="App.navigateTo('role_select')">
+              <i class="fa-solid fa-circle-user"></i>
+              <span>Profile</span>
+            </div>
+          `;
+        } else if (group === 'gs') {
+          nav.innerHTML = `
+            <div class="nav-tab-item ${activeTab === 'home' ? 'active' : ''}" onclick="App.navigateTo('gs_dashboard')">
+              <i class="fa-solid fa-house"></i>
+              <span>Home</span>
+            </div>
+            <div class="nav-tab-item ${activeTab === 'participants' ? 'active' : ''}" onclick="App.navigateTo('gs_participants')">
+              <i class="fa-solid fa-users"></i>
+              <span>Participants</span>
+            </div>
+            <div class="nav-tab-item" onclick="App.navigateTo('events_crud')">
+              <i class="fa-solid fa-calendar-check"></i>
+              <span>Events</span>
+            </div>
+            <div class="nav-tab-item ${activeTab === 'reports' ? 'active' : ''}" onclick="App.navigateTo('gs_reports')">
+              <i class="fa-solid fa-file-invoice"></i>
+              <span>Reports</span>
+            </div>
+            <div class="nav-tab-item" onclick="App.navigateTo('role_select')">
+              <i class="fa-solid fa-circle-user"></i>
+              <span>Profile</span>
+            </div>
+          `;
+        } else if (group === 'events_module') {
+          nav.innerHTML = `
+            <div class="nav-tab-item ${activeTab === 'events' ? 'active' : ''}" onclick="App.navigateTo('events_crud')">
+              <i class="fa-solid fa-house"></i>
+              <span>Events</span>
+            </div>
+            <div class="nav-tab-item ${activeTab === 'create' ? 'active' : ''}" onclick="App.navigateTo('create_event')">
+              <i class="fa-solid fa-plus"></i>
+              <span>Create</span>
+            </div>
+            <div class="nav-tab-item ${activeTab === 'categories' ? 'active' : ''}" onclick="App.navigateTo('categories')">
+              <i class="fa-solid fa-table-cells"></i>
+              <span>Categories</span>
+            </div>
+            <div class="nav-tab-item" onclick="App.navigateTo('role_select')">
+              <i class="fa-solid fa-gear"></i>
+              <span>Settings</span>
+            </div>
+          `;
+        } else if (group === 'regs_module') {
+          nav.innerHTML = `
+            <div class="nav-tab-item" onclick="App.navigateTo('events_crud')">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span>Events</span>
+            </div>
+            <div class="nav-tab-item ${activeTab === 'regs' ? 'active' : ''}" onclick="App.navigateTo('regs_list')">
+              <i class="fa-solid fa-id-card"></i>
+              <span>Registrations</span>
+            </div>
+            <div class="nav-tab-item" onclick="App.navigateTo('admin_colleges')">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>Colleges</span>
+            </div>
+            <div class="nav-tab-item" onclick="App.navigateTo('gs_reports')">
+              <i class="fa-solid fa-file-lines"></i>
+              <span>Reports</span>
+            </div>
+          `;
+        }
+      },
+
+      // ======================================================================
+      // SCREEN VIEW TEMPLATES (EXACT TO THE 5 DESIGN BOARDS)
+      // ======================================================================
+      views: {
+        // --- BOARD 1: AUTHENTICATION ---
+        splash() {
+          return `
+            <div class="splash-container" onclick="App.navigateTo('login')">
+              <div class="splash-glow"></div>
+              <div></div>
+              <div class="splash-center">
+                <div class="melange-brand-logo">
+                  <span class="melange-logo-text light-gold" style="font-size: 3.2rem;">Melange</span>
+                  <i class="fa-solid fa-wand-magic-sparkles melange-logo-spark" style="font-size: 1.4rem;"></i>
+                </div>
+                <div class="portal-tag">EVENT MANAGEMENT PORTAL</div>
+                <div style="font-size: 0.85rem; color: #cbd5e1; font-weight: 500; margin-bottom: 8px;">Loading...</div>
+                <div class="spinner-ring"></div>
+              </div>
+              <div class="splash-footer-text">Where Celebrations Begin</div>
+            </div>
+          `;
+        },
+
+        login() {
+          const showPass = App.state.passwordShown;
+          return `
+            <div class="auth-page">
+              <div class="auth-header-center">
+                <div class="melange-brand-logo">
+                  <span class="melange-logo-text">Melange</span>
+                  <i class="fa-solid fa-wand-magic-sparkles melange-logo-spark" style="font-size: 1.1rem;"></i>
+                </div>
+                <h2 class="auth-welcome-title">Welcome back!</h2>
+                <p class="auth-welcome-sub">Login to your account</p>
+              </div>
+
+              <div class="input-group">
+                <div class="input-field-wrapper">
+                  <i class="fa-solid fa-user input-icon-left"></i>
+                  <input type="text" id="loginUsername" class="melange-input" placeholder="Username / College ID" value="${App.state.mode === 'with_data' ? 'admin' : ''}" />
+                </div>
+              </div>
+
+              <div class="input-group" style="margin-bottom: 12px;">
+                <div class="input-field-wrapper">
+                  <i class="fa-solid fa-lock input-icon-left"></i>
+                  <input type="${showPass ? 'text' : 'password'}" id="loginPassword" class="melange-input" placeholder="Password" value="${App.state.mode === 'with_data' ? 'password123' : ''}" />
+                  <i class="fa-solid ${showPass ? 'fa-eye' : 'fa-eye-slash'} input-icon-right" onclick="App.togglePassword()"></i>
+                </div>
+              </div>
+
+              <div class="show-password-row">
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                  <input type="checkbox" ${showPass ? 'checked' : ''} onchange="App.togglePassword()" />
+                  <span>Show password</span>
+                </label>
+              </div>
+
+              <button class="btn-melange-purple" onclick="App.handleLogin()">
+                <span>Login</span>
+                <i class="fa-solid fa-arrow-right" style="font-size: 0.85rem;"></i>
+              </button>
+
+              <div class="link-forgot" onclick="App.navigateTo('reset_password')">Forgot password?</div>
+              <div class="link-forgot" style="color: #4f46e5; margin-top: 24px;" onclick="App.navigateTo('role_select')">
+                <i class="fa-solid fa-users-gear" style="margin-right: 4px;"></i> Choose Your Role
+              </div>
+            </div>
+          `;
+        },
+
+        roleSelect() {
+          return `
+            <div class="role-select-page">
+              <h2 class="role-title">Choose Your Role</h2>
+
+              <!-- Admin Role Card -->
+              <div class="role-card">
+                <div class="role-icon-box role-icon-admin">
+                  <i class="fa-solid fa-ticket"></i>
+                </div>
+                <div class="role-card-title">Admin Login</div>
+                <div class="role-card-desc">Access management & controls</div>
+                <button class="btn-melange-purple" style="height: 42px; font-size: 0.88rem;" onclick="App.selectRole('admin')">
+                  Proceed
+                </button>
+              </div>
+
+              <!-- College GS Role Card -->
+              <div class="role-card">
+                <div class="role-icon-box role-icon-gs">
+                  <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="role-card-title">College GS Login</div>
+                <div class="role-card-desc">Represent your college & manage events</div>
+                <button class="btn-melange-blue" style="height: 42px; font-size: 0.88rem;" onclick="App.selectRole('gs')">
+                  Proceed
+                </button>
+              </div>
+
+              <div style="text-align: center; margin-top: 12px;">
+                <span style="font-size: 0.78rem; color: #64748b; cursor: pointer;" onclick="App.navigateTo('login')">
+                  <i class="fa-solid fa-arrow-left"></i> Back to Login
+                </span>
+              </div>
+            </div>
+          `;
+        },
+
+        resetPassword() {
+          return `
+            <div class="reset-page">
+              <div style="display: flex; align-items: center;" onclick="App.navigateTo('login')">
+                <i class="fa-solid fa-arrow-left" style="font-size: 1.1rem; color: #334155; cursor: pointer;"></i>
+              </div>
+
+              <h2 class="reset-title">Reset Password</h2>
+              <p class="reset-desc">Enter your registered email or username to receive a reset link.</p>
+
+              <div class="input-group" style="margin-bottom: 24px;">
+                <div class="input-field-wrapper">
+                  <i class="fa-regular fa-envelope input-icon-left"></i>
+                  <input type="email" id="resetEmail" class="melange-input" placeholder="Enter email address" value="${App.state.mode === 'with_data' ? 'rahul.gs@stxaviers.edu' : ''}" />
+                </div>
+              </div>
+
+              <button class="btn-melange-purple" onclick="App.sendResetLink()">
+                Send Reset Link
+              </button>
+
+              <div id="resetSuccessAlert" class="alert-success-banner" style="display: ${App.state.mode === 'with_data' ? 'flex' : 'none'};">
+                <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.1rem;"></i>
+                <span style="flex: 1;">A recovery link has been sent to your email</span>
+                <i class="fa-solid fa-xmark" style="cursor: pointer; color: #065f46;" onclick="document.getElementById('resetSuccessAlert').style.display='none'"></i>
+              </div>
+            </div>
+          `;
+        },
+
+        // --- BOARD 2: ADMIN MANAGEMENT UI ---
+        adminDashboard() {
+          const collegesCount = App.state.mode === 'with_data' ? '48' : '0';
+          const participantsCount = App.state.mode === 'with_data' ? '1,240' : '0';
+          const eventsCount = App.state.mode === 'with_data' ? '32' : '0';
+          const pendingCount = App.state.mode === 'with_data' ? '14' : '0';
+
+          return `
+            <!-- Top App Header -->
+            <div class="app-screen-header">
+              <div class="header-brand-title">
+                <span class="melange-logo-text" style="font-size: 1.45rem;">Melange</span>
+                <span class="role-tag">Admin</span>
+              </div>
+              <div class="header-actions">
+                <div class="icon-btn-round" onclick="App.showToast('No new notifications')">
+                  <i class="fa-regular fa-bell"></i>
+                  <div class="red-dot-badge"></div>
+                </div>
+              </div>
+            </div>
+
+            <h1 class="greeting-title">Hello, Admin!</h1>
+
+            <!-- 2x2 Metric Stat Cards -->
+            <div class="stats-2x2-grid">
+              <div class="stat-card-colored stat-card-blue" onclick="App.navigateTo('admin_colleges')">
+                <div class="stat-card-header">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <div>
+                  <div class="stat-card-label">Total Colleges</div>
+                  <div class="stat-card-val">${collegesCount}</div>
+                </div>
+              </div>
+
+              <div class="stat-card-colored stat-card-purple" onclick="App.navigateTo('regs_list')">
+                <div class="stat-card-header">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                  <div class="stat-card-label">Total Participants</div>
+                  <div class="stat-card-val">${participantsCount}</div>
+                </div>
+              </div>
+
+              <div class="stat-card-colored stat-card-navy" onclick="App.navigateTo('admin_events')">
+                <div class="stat-card-header">
+                  <i class="fa-solid fa-calendar-day"></i>
+                </div>
+                <div>
+                  <div class="stat-card-label">Total Events</div>
+                  <div class="stat-card-val">${eventsCount}</div>
+                </div>
+              </div>
+
+              <div class="stat-card-colored stat-card-gold" onclick="App.navigateTo('admin_regs')">
+                <div class="stat-card-header">
+                  <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                <div>
+                  <div class="stat-card-label">Pending Actions</div>
+                  <div class="stat-card-val">${pendingCount}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="section-title">Quick Actions</div>
+            <div class="quick-actions-row">
+              <button class="btn-quick-action" onclick="App.openAnnounceModal()">
+                <i class="fa-solid fa-bullhorn" style="color: #64748b;"></i>
+                <span>Announce</span>
+              </button>
+              <button class="btn-quick-action" onclick="App.navigateTo('create_event')">
+                <i class="fa-solid fa-calendar-plus" style="color: #64748b;"></i>
+                <span>Add Event</span>
+              </button>
+            </div>
+
+            ${App.state.mode === 'with_data' ? `
+              <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Active Registrations</span>
+                <span style="font-size: 0.75rem; color: #3b82f6; cursor: pointer;" onclick="App.navigateTo('regs_list')">View All</span>
+              </div>
+              <div class="college-card">
+                <div class="college-card-header">
+                  <div class="college-name">Aarav Mehta</div>
+                  <span class="badge-pill badge-pending">Pending</span>
+                </div>
+                <div class="college-subtext">St. Xavier's College • Battle of the Bands</div>
+                <div class="card-actions-row" style="margin-top: 10px;">
+                  <button class="btn-card-action blue-fill" onclick="App.navigateTo('reg_details')">View Details</button>
+                </div>
+              </div>
+            ` : `
+              <div style="padding: 20px; text-align: center; color: #94a3b8; font-size: 0.8rem;">
+                <i class="fa-solid fa-circle-info" style="margin-right: 4px;"></i>
+                Without data mode: Ready to accept live entries.
+              </div>
+            `}
+          `;
+        },
+
+        adminColleges() {
+          const hasColleges = App.state.data.colleges && App.state.data.colleges.length > 0;
+          return `
+            <div class="app-screen-header">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-arrow-left" style="cursor: pointer;" onclick="App.navigateTo('admin_dashboard')"></i>
+                <h2 style="font-size: 1.15rem; font-weight: 800;">Colleges</h2>
+              </div>
+              <button class="btn-card-action blue-fill" style="width: auto; padding: 4px 12px;" onclick="App.addCollegePrompt()">
+                + Add College
+              </button>
+            </div>
+
+            <div style="padding: 12px 16px 8px;">
+              <div class="input-field-wrapper">
+                <i class="fa-solid fa-magnifying-glass input-icon-left"></i>
+                <input type="text" class="melange-input" style="height: 40px; border-radius: 9999px;" placeholder="Search colleges..." oninput="App.filterColleges(this.value)" />
+              </div>
+            </div>
+
+            <div id="collegesListContainer" style="padding-top: 6px;">
+              ${hasColleges ? App.state.data.colleges.map(c => `
+                <div class="college-card">
+                  <div class="college-card-header">
+                    <div class="college-name">${c.name}</div>
+                    <span class="badge-pill badge-active">${c.status}</span>
+                  </div>
+                  <div class="college-subtext">GS: ${c.gs}</div>
+                  <div class="college-meta-row">
+                    <i class="fa-solid fa-users" style="color: #64748b;"></i>
+                    <span>${c.participants} Participants</span>
+                  </div>
+                  <div class="card-actions-row">
+                    <button class="btn-card-action blue-fill" onclick="App.navigateTo('gs_participants')">👁 View</button>
+                    <button class="btn-card-action" onclick="App.showToast('Edit College: ' + '${c.name}')">✏️ Edit</button>
+                    <button class="btn-card-action" onclick="App.showToast('Managing: ' + '${c.name}')">⚙️ Manage</button>
+                  </div>
+                </div>
+              `).join('') : `
+                <div class="empty-state-view">
+                  <div style="width: 60px; height: 60px; border-radius: 50%; background: #eff6ff; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: #3b82f6; font-size: 1.5rem;">
+                    <i class="fa-solid fa-building-columns"></i>
+                  </div>
+                  <div class="empty-title">No Colleges Listed</div>
+                  <div class="empty-desc">No college records found in the current system. Tap '+ Add College' to register an institution.</div>
+                  <button class="btn-card-action blue-fill" style="width: auto; padding: 6px 18px;" onclick="App.addCollegePrompt()">
+                    + Add New College
+                  </button>
+                </div>
+              `}
+            </div>
+          `;
+        },
+
+        adminEvents() {
+          const hasEvents = App.state.data.events && App.state.data.events.length > 0;
+          return `
+            <div class="app-screen-header">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-arrow-left" style="cursor: pointer;" onclick="App.navigateTo('admin_dashboard')"></i>
+                <h2 style="font-size: 1.15rem; font-weight: 800;">Events</h2>
+              </div>
+              <button class="btn-card-action blue-fill" style="width: auto; padding: 4px 14px;" onclick="App.navigateTo('create_event')">
+                + Add New
+              </button>
+            </div>
+
+            <div style="padding-top: 10px;">
+              ${hasEvents ? App.state.data.events.map(e => `
+                <div class="college-card">
+                  <div class="college-name" style="font-size: 1.05rem;">${e.name}</div>
+                  <div class="college-subtext">Category: ${e.category}</div>
+                  <div class="college-subtext">Date: ${e.date}</div>
+                  <div style="margin: 8px 0 12px;">
+                    <span class="badge-pill ${e.badgeClass}">${e.statusBadge}</span>
+                  </div>
+                  <div class="card-actions-row">
+                    <button class="btn-card-action blue-fill" onclick="App.navigateTo('create_event')">Edit</button>
+                    <button class="btn-card-action red-fill" onclick="App.promptDeleteEvent('${e.name}')">Delete</button>
+                  </div>
+                </div>
+              `).join('') : `
+                <div class="empty-state-view">
+                  <div style="width: 60px; height: 60px; border-radius: 50%; background: #fdf2f8; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: #db2777; font-size: 1.5rem;">
+                    <i class="fa-solid fa-calendar-xmark"></i>
+                  </div>
+                  <div class="empty-title">No Events Configured</div>
+                  <div class="empty-desc">There are no events registered yet. Use '+ Add New' to schedule a competition.</div>
+                  <button class="btn-card-action blue-fill" style="width: auto; padding: 6px 18px;" onclick="App.navigateTo('create_event')">
+                    + Add New Event
+                  </button>
+                </div>
+              `}
+            </div>
+          `;
+        },
+
+        adminRegs() {
+          const hasRegs = App.state.data.registrations && App.state.data.registrations.length > 0;
+          return `
+            <div class="app-screen-header">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-arrow-left" style="cursor: pointer;" onclick="App.navigateTo('admin_dashboard')"></i>
+                <h2 style="font-size: 1.15rem; font-weight: 800;">Registrations</h2>
+              </div>
+              <div class="icon-btn-round" onclick="App.openFilterModal()">
+                <i class="fa-solid fa-sliders"></i>
+              </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div style="display: flex; padding: 10px 16px; gap: 8px;">
+              <button class="btn-card-action blue-fill" style="height: 30px;">All</button>
+              <button class="btn-card-action" style="height: 30px;" onclick="App.showToast('Showing Pending')">Pending</button>
+              <button class="btn-card-action" style="height: 30px;" onclick="App.showToast('Showing Approved')">Approved</button>
+            </div>
+
+            <div style="padding-top: 4px;">
+              ${hasRegs ? App.state.data.registrations.map(r => `
+                <div class="college-card">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <div style="width: 38px; height: 38px; border-radius: 50%; background: #fef3c7; color: #b45309; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 0.82rem;">
+                      ${r.initials}
+                    </div>
+                    <div style="flex: 1;">
+                      <div class="college-name" style="font-size: 0.95rem;">${r.studentName}</div>
+                      <div class="college-subtext" style="font-size: 0.74rem;">${r.college}</div>
+                    </div>
+                  </div>
+                  <div class="college-subtext" style="font-weight: 600; color: #0f172a;">${r.event}</div>
+                  <div style="margin: 6px 0 12px;">
+                    <span class="badge-pill ${r.statusClass}">${r.status}</span>
+                  </div>
+                  <div class="card-actions-row">
+                    ${r.status === 'Pending' ? `
+                      <button class="btn-card-action green-fill" onclick="App.updateRegStatus('${r.id}', 'Approved')">Approve</button>
+                      <button class="btn-card-action red-outline" onclick="App.updateRegStatus('${r.id}', 'Rejected')">Reject</button>
+                    ` : ''}
+                    <button class="btn-card-action" onclick="App.openRegDetails('${r.id}')">View</button>
+                  </div>
+                </div>
+              `).join('') : `
+                <div class="empty-state-view">
+                  <div class="empty-title">No Registrations</div>
+                  <div class="empty-desc">No student registrations have been submitted yet.</div>
+                  <button class="btn-card-action blue-fill" style="width: auto; padding: 6px 18px;" onclick="App.navigateTo('gs_add_participant')">
+                    + Register Student
+                  </button>
+                </div>
+              `}
+            </div>
+          `;
+        },
+
+        // --- BOARD 3: COLLEGE GS PORTAL UI ---
+        gsDashboard() {
+          const participantsCount = App.state.mode === 'with_data' ? '48' : '0';
+          const eventsCount = App.state.mode === 'with_data' ? '12' : '0';
+          const tasksCount = App.state.mode === 'with_data' ? '3' : '0';
+          const progressPercent = App.state.mode === 'with_data' ? 75 : 0;
+          const strokeOffset = 100 - progressPercent;
+
+          return `
+            <div class="app-screen-header">
+              <div class="header-brand-title">
+                <span class="melange-logo-text" style="font-size: 1.4rem;">Melange</span>
+              </div>
+              <div class="header-actions">
+                <div class="icon-btn-round" onclick="App.showToast('No new GS alerts')">
+                  <i class="fa-regular fa-bell"></i>
+                  <div class="red-dot-badge"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="gs-scope-notice">
+              <span>GS: St. Xavier's College</span>
+              <span style="opacity: 0.8;">GS can only see their own college data</span>
+            </div>
+
+            <h1 class="greeting-title" style="margin-bottom: 6px;">Hello, GS Rahul!</h1>
+
+            <div class="college-chip-badge">
+              <i class="fa-solid fa-building-columns" style="font-size: 0.7rem;"></i>
+              <span>Your College: St. Xavier's</span>
+            </div>
+
+            <!-- Quick Stats Card -->
+            <div class="gs-stats-card">
+              <div class="gs-stats-header">Quick Stats</div>
+              <div class="gs-stats-grid">
+                <div class="gs-stat-box">
+                  <div class="gs-stat-title">Total Participants</div>
+                  <div class="gs-stat-number">${participantsCount}</div>
+                </div>
+
+                <div class="gs-stat-box">
+                  <div class="gs-stat-title">Events Selected</div>
+                  <div class="gs-stat-number">${eventsCount}</div>
+                </div>
+
+                <div class="gs-stat-box">
+                  <div class="gs-stat-title">Registration Progress</div>
+                  <div class="circular-progress-wrap" style="margin-top: 4px;">
+                    <svg class="circular-svg" viewBox="0 0 36 36">
+                      <path class="circular-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      <path class="circular-fill" stroke-dashoffset="${strokeOffset}" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <span style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">${progressPercent}%</span>
+                  </div>
+                </div>
+
+                <div class="gs-stat-box">
+                  <div class="gs-stat-title">Pending Tasks</div>
+                  <div class="gs-stat-number">${tasksCount}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Activity Cards -->
+            <div class="section-title">Recent Activity</div>
+            <div class="college-card" style="margin-bottom: 8px; cursor: pointer;" onclick="App.navigateTo('gs_participants')">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 36px; height: 36px; border-radius: 10px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center;">
+                  <i class="fa-solid fa-id-card"></i>
+                </div>
+                <div>
+                  <div style="font-size: 0.88rem; font-weight: 700; color: #0f172a;">Quick Participants</div>
+                  <div style="font-size: 0.72rem; color: #64748b;">Quick touch-friendly card cards</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="college-card" style="margin-bottom: 24px; cursor: pointer;" onclick="App.navigateTo('gs_reports')">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 36px; height: 36px; border-radius: 10px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center;">
+                  <i class="fa-solid fa-list-check"></i>
+                </div>
+                <div>
+                  <div style="font-size: 0.88rem; font-weight: 700; color: #0f172a;">Pending Tasks</div>
+                  <div style="font-size: 0.72rem; color: #64748b;">GS can only see their own colleges</div>
+                </div>
+              </div>
+            </div>
+          `;
+        },
+
+        gsParticipants() {
+          const hasP = App.state.data.participants && App.state.data.participants.length > 0;
+          return `
+            <div class="app-screen-header">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-arrow-left" style="cursor: pointer;" onclick="App.navigateTo('gs_dashboard')"></i>
+                <h2 style="font-size: 1.15rem; font-weight: 800;">Participants</h2>
+              </div>
+              <button class="btn-card-action blue-fill" style="width: auto; padding: 4px 14px;" onclick="App.navigateTo('gs_add_participant')">
+                + Add New
+              </button>
+            </div>
+
+            <div style="padding: 10px 16px 8px; display: flex; gap: 8px;">
+              <div class="input-field-wrapper" style="flex: 1;">
+                <i class="fa-solid fa-magnifying-glass input-icon-left"></i>
+                <input type="text" class="melange-input" style="height: 40px; border-radius: 10px;" placeholder="Search" oninput="App.filterParticipants(this.value)" />
+              </div>
+              <div class="icon-btn-round" style="height: 40px; width: 40px; border-radius: 10px;" onclick="App.openFilterModal()">
+                <i class="fa-solid fa-sliders"></i>
+              </div>
+            </div>
+
+            <div style="padding-top: 4px;">
+              ${hasP ? App.state.data.participants.map(p => `
+                <div class="college-card">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <div style="width: 36px; height: 36px; border-radius: 50%; background: #e0f2fe; color: #0369a1; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 0.82rem;">
+                      ${p.name.split(' ').map(n=>n[0]).join('')}
+                    </div>
+                    <div style="flex: 1;">
+                      <div class="college-name" style="font-size: 0.95rem;">${p.name}</div>
+                    </div>
+                  </div>
+                  <div class="college-subtext">Department: ${p.dept}</div>
+                  <div class="college-subtext">Year: ${p.year}</div>
+                  <div class="college-subtext" style="font-weight: 600; color: #1e293b;">Event: ${p.event}</div>
+                  <div class="card-actions-row" style="margin-top: 10px;">
+                    <button class="btn-card-action" onclick="App.openRegDetails('reg1')">👁 View</button>
+                    <button class="btn-card-action" onclick="App.showToast('Editing ' + '${p.name}')">✏️ Edit</button>
+                    <button class="btn-card-action red-outline" onclick="App.deleteParticipant('${p.id}')">🗑 Delete</button>
+                  </div>
+                </div>
+              `).join('') : `
+                <div class="empty-state-view">
+                  <div style="width: 60px; height: 60px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: #0284c7; font-size: 1.5rem;">
+                    <i class="fa-solid fa-user-plus"></i>
+                  </div>
+                  <div class="empty-title">No Participants Enrolled</div>
+                  <div class="empty-desc">Your college has not enrolled any students yet. Tap '+ Add New' to submit participants.</div>
+                  <button class="btn-card-action blue-fill" style="width: auto; padding: 6px 18px;" onclick="App.navigateTo('gs_add_participant')">
+                    + Add New Participant
+                  </button>
+                </div>
+              `}
+            </div>
+          `;
+        },
+
+        gsAddParticipant() {
+          return `
+            <div class="form-page-container">
+              <div class="form-header-bar">
+                <i class="fa-solid fa-arrow-left" style="cursor: pointer; font-size: 1.1rem;" onclick="App.navigateTo('gs_participants')"></i>
+                <h2>Add New Participant</h2>
+              </div>
+
+              <div style="margin-bottom: 14px;">
+                <span style="background: #240b52; color: #ffffff; font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 9999px;">
+                  St. Xavier's College
+                </span>
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Full Name</label>
+                <input type="text" id="addPartName" class="melange-input" style="padding-left: 14px;" placeholder="Full Name" value="${App.state.mode === 'with_data' ? 'Aarav Mehta' : ''}" />
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Department</label>
+                <select id="addPartDept" class="form-select">
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="BMM / Mass Media">BMM / Mass Media</option>
+                  <option value="Commerce & Finance">Commerce & Finance</option>
+                  <option value="Fine Arts">Fine Arts</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Year</label>
+                <div class="pills-selector-row">
+                  <div class="pill-select-opt" onclick="App.selectYear(this, '1st Yr')">1st Yr</div>
+                  <div class="pill-select-opt" onclick="App.selectYear(this, '2nd Yr')">2nd Yr</div>
+                  <div class="pill-select-opt selected" onclick="App.selectYear(this, '3rd Yr')">3rd Yr</div>
+                  <div class="pill-select-opt" onclick="App.selectYear(this, '4th Yr')">4th Yr</div>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Phone Number</label>
+                <input type="tel" id="addPartPhone" class="melange-input" style="padding-left: 14px;" placeholder="+91 98765 43210" value="${App.state.mode === 'with_data' ? '+91 98765 43210' : ''}" />
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Email ID</label>
+                <input type="email" id="addPartEmail" class="melange-input" style="padding-left: 14px;" placeholder="aarav@example.com" value="${App.state.mode === 'with_data' ? 'aarav@example.com' : ''}" />
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Event Selection</label>
+                <select id="addPartEvent" class="form-select">
+                  <option value="Battle of the Bands">Battle of the Bands</option>
+                  <option value="Fashion Show">Fashion Show</option>
+                  <option value="Street Play">Street Play</option>
+                  <option value="LAN Gaming">LAN Gaming</option>
+                </select>
+              </div>
+
+              <button class="btn-melange-blue" style="margin-top: 10px;" onclick="App.saveParticipant()">
+                Save Participant
+              </button>
+            </div>
+          `;
+        },
+
+        gsReports() {
+          const hasEvents = App.state.data.events && App.state.data.events.length > 0;
+          return `
+            <div class="app-screen-header">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-arrow-left" style="cursor: pointer;" onclick="App.navigateTo('gs_dashboard')"></i>
+                <h2 style="font-size: 1.15rem; font-weight: 800;">Events & Reports</h2>
+              </div>
+              <div class="icon-btn-round" onclick="App.downloadParticipantRoster()">
+                <i class="fa-solid fa-download"></i>
+              </div>
+            </div>
+
+            <!-- Event Available Slots Cards -->
+            <div style="padding-top: 10px;">
+              ${hasEvents ? App.state.data.events.slice(0, 2).map(e => `
+                <div class="event-slot-card">
+                  <div class="event-slot-title">${e.name}</div>
+                  <div class="event-slot-desc">${e.desc}</div>
+                  <div class="event-slot-count">Available Slots: ${e.slotsUsed}/${e.slotsTotal}</div>
+                  <button class="btn-gold-add-slot" onclick="App.navigateTo('gs_add_participant')">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add Participant</span>
+                  </button>
+                </div>
+              `).join('') : `
+                <div class="event-slot-card">
+                  <div class="event-slot-title">Battle of the Bands</div>
+                  <div class="event-slot-desc">Heavy metal and rock bands, Feb 22, 10 AM</div>
+                  <div class="event-slot-count">Available Slots: 2/5</div>
+                  <button class="btn-gold-add-slot" onclick="App.navigateTo('gs_add_participant')">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add Participant</span>
+                  </button>
+                </div>
+              `}
+            </div>
+
+            <!-- Reports Section -->
+            <div class="section-title" style="margin-top: 8px;">Reports</div>
+            <div class="reports-card-box">
+              <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a; margin-bottom: 4px;">
+                College Summary: St. Xavier's
+              </div>
+              <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 12px;">
+                Participants: ${App.state.mode === 'with_data' ? '48' : '0'}, Total Events: ${App.state.mode === 'with_data' ? '12' : '0'}
+              </div>
+              <button class="btn-download-pdf-excel" onclick="App.downloadParticipantRoster()">
+                <i class="fa-solid fa-file-arrow-down" style="color: #d97706;"></i>
+                <span>Download Participant List (PDF/Excel)</span>
+              </button>
+            </div>
+          `;
+        },
+
+        // --- BOARD 4: EVENTS & CRUD ---
+        eventsCrud() {
+          const hasEvents = App.state.data.events && App.state.data.events.length > 0;
+          return `
+            <div class="app-screen-header">
+              <div class="header-brand-title">
+                <span class="melange-logo-text" style="font-size: 1.4rem;">Melange</span>
+              </div>
+              <div class="header-actions">
+                <div class="icon-btn-round" onclick="App.showToast('Announcements')">
+                  <i class="fa-regular fa-bell"></i>
+                  <div class="red-dot-badge"></div>
+                </div>
+                <div class="user-avatar-gs" onclick="App.navigateTo('role_select')">GS</div>
+              </div>
+            </div>
+
+            <!-- Search Bar + Filter -->
+            <div style="padding: 10px 16px 8px; display: flex; gap: 8px;">
+              <div class="input-field-wrapper" style="flex: 1;">
+                <i class="fa-solid fa-magnifying-glass input-icon-left"></i>
+                <input type="text" class="melange-input" style="height: 40px; border-radius: 10px;" placeholder="Search" oninput="App.filterEvents(this.value)" />
+              </div>
+              <div class="icon-btn-round" style="height: 40px; width: 40px; border-radius: 10px;" onclick="App.openFilterModal()">
+                <i class="fa-solid fa-sliders"></i>
+              </div>
+            </div>
+
+            <!-- Filter Toggle -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 18px 12px;">
+              <span style="font-size: 0.78rem; font-weight: 700; color: #475569;">Filter by event categories</span>
+              <label style="position: relative; display: inline-block; width: 42px; height: 22px;">
+                <input type="checkbox" ${App.state.activeCategoryFilter ? 'checked' : ''} onchange="App.toggleCategoryFilter(this.checked)" style="opacity: 0; width: 0; height: 0;" />
+                <span style="position: absolute; cursor: pointer; inset: 0; background-color: ${App.state.activeCategoryFilter ? '#7c3aed' : '#cbd5e1'}; border-radius: 34px; transition: 0.2s;">
+                  <span style="position: absolute; height: 16px; width: 16px; left: ${App.state.activeCategoryFilter ? '22px' : '3px'}; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.2s;"></span>
+                </span>
+              </label>
+            </div>
+
+            <!-- Event Cards -->
+            <div style="padding-bottom: 70px;">
+              ${hasEvents ? App.state.data.events.map(e => `
+                <div class="college-card">
+                  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: ${e.iconColor}; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                      <i class="${e.icon}"></i>
+                    </div>
+                    <div style="flex: 1;">
+                      <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div class="college-name">${e.name}</div>
+                        <span class="badge-pill ${e.badgeClass}">${e.status}</span>
+                      </div>
+                      <div class="college-subtext">${e.category}</div>
+                      <div class="college-subtext" style="font-size: 0.72rem;"><i class="fa-regular fa-calendar" style="margin-right: 4px;"></i>${e.date}</div>
+                    </div>
+                  </div>
+                  <div class="card-actions-row" style="margin-top: 10px;">
+                    <button class="btn-card-action" onclick="App.navigateTo('create_event')">✏️ Edit</button>
+                    <button class="btn-card-action red-outline" onclick="App.promptDeleteEvent('${e.name}')">🗑 Delete</button>
+                  </div>
+                </div>
+              `).join('') : `
+                <div class="empty-state-view">
+                  <div class="empty-title">No Events Available</div>
+                  <div class="empty-desc">No events to display under current filter settings. Tap the blue '+' button below to add one.</div>
+                </div>
+              `}
+            </div>
+
+            <!-- Floating Action Button (+) -->
+            <button class="fab-btn-plus" onclick="App.navigateTo('create_event')" title="Create New Event">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          `;
+        },
+
+        createEvent() {
+          return `
+            <div class="form-page-container">
+              <div class="form-header-bar">
+                <i class="fa-solid fa-arrow-left" style="cursor: pointer; font-size: 1.1rem;" onclick="App.navigateTo('events_crud')"></i>
+                <h2>Create New Event</h2>
+                <div class="user-avatar-gs" style="margin-left: auto;">GS</div>
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Event Name</label>
+                <input type="text" id="newEventName" class="melange-input" style="padding-left: 14px;" placeholder="e.g., Battle of the Bands" value="${App.state.mode === 'with_data' ? 'Battle of the Bands' : ''}" />
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Description</label>
+                <textarea id="newEventDesc" class="form-textarea" placeholder="Description">${App.state.mode === 'with_data' ? 'Heavy metal and rock bands battle' : ''}</textarea>
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Rules</label>
+                <textarea id="newEventRules" class="form-textarea" placeholder="Rules">${App.state.mode === 'with_data' ? '10 min performance limit' : ''}</textarea>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;" class="input-group">
+                <div>
+                  <label class="form-field-label">Category</label>
+                  <select id="newEventCategory" class="form-select">
+                    <option value="Music & Dance">Music & Dance</option>
+                    <option value="Fashion & Art">Fashion & Art</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Gaming">Gaming</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-field-label">Date & Time</label>
+                  <input type="text" id="newEventTime" class="melange-input" style="padding-left: 10px; height: 44px;" placeholder="12:00 PM" value="12:00 PM" />
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="form-field-label">Venue</label>
+                <input type="text" id="newEventVenue" class="melange-input" style="padding-left: 14px;" placeholder="Venue" value="${App.state.mode === 'with_data' ? 'Main Amphitheatre' : ''}" />
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;" class="input-group">
+                <div>
+                  <label class="form-field-label">Participant Limit</label>
+                  <div class="stepper-counter-box">
+                    <button class="stepper-btn" onclick="App.stepLimit(-1)">-</button>
+                    <div id="participantLimitVal" class="stepper-val">5</div>
+                    <button class="stepper-btn" onclick="App.stepLimit(1)">+</button>
+                  </div>
+                </div>
+                <div>
+                  <label class="form-field-label">Registration Deadline</label>
+                  <input type="text" id="newEventDeadline" class="melange-input" style="padding-left: 10px; height: 44px;" placeholder="12:00 PM" value="Feb 20, 12:00 PM" />
+                </div>
+              </div>
+
+              <button class="btn-melange-blue" style="margin-top: 10px;" onclick="App.saveNewEvent()">
+                Create Event
+              </button>
+            </div>
+          `;
+        },
+
+        categories() {
+          return `
+            <div class="app-screen-header">
+              <div class="header-brand-title">
+                <span class="melange-logo-text" style="font-size: 1.4rem;">Melange</span>
+              </div>
+              <div class="header-actions">
+                <div class="icon-btn-round">
+                  <i class="fa-regular fa-bell"></i>
+                  <div class="red-dot-badge"></div>
+                </div>
+                <div class="user-avatar-gs">GS</div>
+              </div>
+            </div>
+
+            <h1 class="greeting-title" style="margin-bottom: 14px;">Event Categories</h1>
+
+            <div>
+              ${App.state.data.categories.map(c => `
+                <div class="category-row-card">
+                  <div>
+                    <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a;">${c.name}</div>
+                    <div style="font-size: 0.74rem; color: #64748b;">${c.count} Events</div>
+                  </div>
+                  <div style="display: flex; gap: 12px; color: #64748b; font-size: 0.9rem;">
+                    <i class="fa-regular fa-pen-to-square" style="cursor: pointer;" onclick="App.showToast('Edit Category')"></i>
+                    <i class="fa-regular fa-trash-can" style="cursor: pointer; color: #ef4444;" onclick="App.showToast('Delete Category')"></i>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div style="padding: 16px;">
+              <button class="btn-download-pdf-excel" onclick="App.addCategoryPrompt()">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add Category</span>
+              </button>
+            </div>
+          `;
+        },
+
+        // --- BOARD 5: REGISTRATIONS, FILTERS & DETAILS ---
+        regsList() {
+          const hasRegs = App.state.data.registrations && App.state.data.registrations.length > 0;
+          return `
+            <div class="app-screen-header">
+              <div class="header-brand-title">
+                <span class="melange-logo-text" style="font-size: 1.4rem;">Melange</span>
+              </div>
+              <div class="header-actions">
+                <div class="icon-btn-round" onclick="App.showToast('Notifications')">
+                  <i class="fa-regular fa-bell"></i>
+                  <div class="red-dot-badge"></div>
+                </div>
+                <div class="user-avatar-gs">GS</div>
+              </div>
+            </div>
+
+            <!-- Search + Filter -->
+            <div style="padding: 10px 16px 6px; display: flex; gap: 8px;">
+              <div class="input-field-wrapper" style="flex: 1;">
+                <i class="fa-solid fa-magnifying-glass input-icon-left"></i>
+                <input type="text" class="melange-input" style="height: 40px; border-radius: 10px;" placeholder="Search by name, college..." oninput="App.filterRegistrations(this.value)" />
+              </div>
+              <div class="icon-btn-round" style="height: 40px; width: 40px; border-radius: 10px;" onclick="App.openFilterModal()">
+                <i class="fa-solid fa-sliders"></i>
+              </div>
+            </div>
+
+            <!-- Active Filter Tags -->
+            <div style="display: flex; gap: 6px; padding: 0 16px 10px;">
+              <span class="filter-pill-checkbox checked" style="font-size: 0.7rem; padding: 3px 8px;">
+                Pending <i class="fa-solid fa-xmark"></i>
+              </span>
+              <span class="filter-pill-checkbox checked" style="font-size: 0.7rem; padding: 3px 8px;">
+                All Colleges <i class="fa-solid fa-xmark"></i>
+              </span>
+            </div>
+
+            <div style="padding-top: 4px;">
+              ${hasRegs ? App.state.data.registrations.map(r => `
+                <div class="college-card">
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div class="college-name">${r.studentName}</div>
+                    <span class="badge-pill ${r.statusClass}">${r.status}</span>
+                  </div>
+                  <div class="college-subtext">${r.college}</div>
+                  <div class="college-subtext" style="font-weight: 600; color: #1e293b;">Event: ${r.event}</div>
+
+                  <div class="card-actions-row" style="margin-top: 10px;">
+                    ${r.status === 'Pending' ? `
+                      <button class="btn-card-action green-fill" onclick="App.updateRegStatus('${r.id}', 'Approved')">Approve</button>
+                      <button class="btn-card-action red-outline" onclick="App.updateRegStatus('${r.id}', 'Rejected')">Reject</button>
+                    ` : r.status === 'Approved' ? `
+                      <button class="btn-card-action" onclick="App.showToast('Edit candidate')">Edit</button>
+                      <button class="btn-card-action red-outline" onclick="App.updateRegStatus('${r.id}', 'Rejected')">Reject</button>
+                    ` : `
+                      <button class="btn-card-action blue-fill" onclick="App.updateRegStatus('${r.id}', 'Pending')">Reconsider</button>
+                    `}
+                  </div>
+                  <div style="text-align: center; margin-top: 8px;">
+                    <span style="font-size: 0.75rem; color: #3b82f6; cursor: pointer; font-weight: 700;" onclick="App.openRegDetails('${r.id}')">
+                      View Details
+                    </span>
+                  </div>
+                </div>
+              `).join('') : `
+                <div class="empty-state-view">
+                  <div style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #64748b; margin-bottom: 20px;">
+                    <div class="spinner-ring" style="width: 14px; height: 14px; border-width: 2px; margin: 0;"></div>
+                    <span>Loading registrations...</span>
+                  </div>
+                  <svg class="empty-doc-illustration" viewBox="0 0 120 120">
+                    <rect x="25" y="20" width="60" height="75" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+                    <line x1="35" y1="35" x2="65" y2="35" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="35" y1="45" x2="75" y2="45" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="35" y1="55" x2="60" y2="55" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="68" cy="68" r="22" fill="#ffffff" stroke="#f59e0b" stroke-width="3"/>
+                    <line x1="84" y1="84" x2="102" y2="102" stroke="#b45309" stroke-width="5" stroke-linecap="round"/>
+                  </svg>
+                  <div class="empty-title">No pending registrations found</div>
+                  <div class="empty-desc">Try adjusting your filters or search query</div>
+                  <button class="btn-card-action" style="width: auto; padding: 6px 18px; border-radius: 9999px;" onclick="App.clearFilters()">
+                    Clear Filters
+                  </button>
+                </div>
+              `}
+            </div>
+          `;
+        },
+
+        regDetails() {
+          const reg = App.state.selectedRegistration || App.sampleData.registrations[0];
+          return `
+            <div style="flex: 1; background: #f8fafc; display: flex; flex-direction: column;">
+              <div class="app-screen-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <i class="fa-solid fa-arrow-left" style="cursor: pointer;" onclick="App.navigateTo('regs_list')"></i>
+                  <h2 style="font-size: 1.15rem; font-weight: 800;">Registration Details</h2>
+                </div>
+                <i class="fa-solid fa-pencil" style="color: #64748b; cursor: pointer;" onclick="App.showToast('Edit candidate')"></i>
+              </div>
+
+              <div style="padding: 20px 18px;">
+                <!-- Profile Avatar Circle -->
+                <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
+                  <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff; font-size: 1.6rem; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3); margin-bottom: 10px;">
+                    ${reg.initials}
+                  </div>
+                  <h2 style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">${reg.studentName}</h2>
+                  <div style="font-size: 0.8rem; color: #64748b;">College: ${reg.college}</div>
+                  <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 600;">ID: ${reg.studentId}</div>
+                </div>
+
+                <!-- Info Cards -->
+                <div class="college-card" style="margin: 0 0 10px;">
+                  <div class="college-subtext">Event Registration</div>
+                  <div style="font-weight: 800; color: #0f172a; font-size: 0.95rem;">${reg.event}</div>
+                </div>
+
+                <div class="college-card" style="margin: 0 0 10px;">
+                  <div class="college-subtext">Contact</div>
+                  <div style="font-weight: 600; color: #0f172a; font-size: 0.85rem;">${reg.email}</div>
+                  <div style="font-weight: 600; color: #0f172a; font-size: 0.85rem;">${reg.phone}</div>
+                </div>
+
+                <div class="college-card" style="margin: 0 0 10px;">
+                  <div class="college-subtext">Academic</div>
+                  <div style="font-weight: 600; color: #0f172a; font-size: 0.85rem;">Year: ${reg.year} | Dept: ${reg.dept}</div>
+                </div>
+
+                <div class="college-card" style="margin: 0 0 24px;">
+                  <div class="college-subtext">Status</div>
+                  <div style="font-weight: 800; color: #b45309; font-size: 0.85rem;">${reg.status} Review</div>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: flex; gap: 10px;">
+                  <button class="btn-card-action red-outline" style="height: 44px; font-size: 0.85rem;" onclick="App.updateRegStatus('${reg.id}', 'Rejected')">
+                    Reject Registration
+                  </button>
+                  <button class="btn-card-action blue-fill" style="height: 44px; font-size: 0.85rem;" onclick="App.updateRegStatus('${reg.id}', 'Approved')">
+                    Approve
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        },
+
+        emptyState() {
+          return `
+            <div class="app-screen-header">
+              <div class="header-brand-title">
+                <span class="melange-logo-text" style="font-size: 1.4rem;">Melange</span>
+              </div>
+              <div class="header-actions">
+                <div class="icon-btn-round" onclick="App.showToast('Searching...')">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="user-avatar-gs">GS</div>
+              </div>
+            </div>
+
+            <div class="empty-state-view">
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #64748b; margin-bottom: 24px;">
+                <div class="spinner-ring" style="width: 14px; height: 14px; border-width: 2px; margin: 0;"></div>
+                <span>Swipe to Refresh • Loading registrations...</span>
+              </div>
+
+              <!-- Illustration -->
+              <svg class="empty-doc-illustration" viewBox="0 0 120 120">
+                <rect x="25" y="20" width="60" height="75" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+                <line x1="35" y1="35" x2="65" y2="35" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+                <line x1="35" y1="45" x2="75" y2="45" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+                <line x1="35" y1="55" x2="60" y2="55" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="68" cy="68" r="22" fill="#ffffff" stroke="#f59e0b" stroke-width="3"/>
+                <line x1="84" y1="84" x2="102" y2="102" stroke="#b45309" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+
+              <div class="empty-title">No pending registrations found</div>
+              <div class="empty-desc">Try adjusting your filters or search query</div>
+
+              <button class="btn-card-action" style="width: auto; padding: 8px 24px; border-radius: 9999px; margin-top: 10px;" onclick="App.clearFilters()">
+                Clear Filters
+              </button>
+            </div>
+          `;
+        }
+      },
+
+      // ======================================================================
+      // MODALS (FILTERS, DELETE EVENT, ANNOUNCEMENT)
+      // ======================================================================
+      openFilterModal() {
+        const html = `
+          <div class="sheet-drag-handle"></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <h2 style="font-size: 1.15rem; font-weight: 800; color: #0f172a;">Filters</h2>
+            <i class="fa-solid fa-xmark" style="cursor: pointer; font-size: 1.1rem; color: #64748b;" onclick="App.closeModal()"></i>
+          </div>
+
+          <div style="font-size: 0.78rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">By College</div>
+          <div class="filter-options-grid">
+            <span class="filter-pill-checkbox checked" onclick="this.classList.toggle('checked')">✓ All Colleges</span>
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">St. Xavier's</span>
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">IIT Bombay</span>
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">KJ Somaiya</span>
+          </div>
+
+          <div style="font-size: 0.78rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">By Event</div>
+          <div class="filter-options-grid">
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">Battle of the Bands</span>
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">Fashion Show</span>
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">Street Play</span>
+          </div>
+
+          <div style="font-size: 0.78rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">By Year</div>
+          <div class="filter-options-grid">
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">1st Year</span>
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">2nd Year</span>
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">3rd Year</span>
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">4th Year</span>
+          </div>
+
+          <div style="font-size: 0.78rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">By Status</div>
+          <div class="filter-options-grid">
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">All</span>
+            <span class="filter-pill-checkbox checked" onclick="this.classList.toggle('checked')">✓ Pending</span>
+            <span class="filter-pill-checkbox checked" onclick="this.classList.toggle('checked')">✓ Approved</span>
+            <span class="filter-pill-checkbox" onclick="this.classList.toggle('checked')">Rejected</span>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button class="btn-card-action" style="flex: 1; height: 42px;" onclick="App.clearFilters(); App.closeModal();">
+              Reset All
+            </button>
+            <button class="btn-card-action blue-fill" style="flex: 1; height: 42px;" onclick="App.applyFilters(); App.closeModal();">
+              Apply Filters
+            </button>
+          </div>
+        `;
+        this.openModal(html);
+      },
+
+      promptDeleteEvent(eventName) {
+        this.state.deletingEvent = eventName;
+        const html = `
+          <div class="sheet-drag-handle"></div>
+          <h2 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">Delete Event?</h2>
+          <p style="font-size: 0.82rem; color: #64748b; line-height: 1.4; margin-bottom: 20px;">
+            Are you sure you want to delete '${eventName}'? This action cannot be undone.
+          </p>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-card-action" style="height: 42px;" onclick="App.closeModal()">
+              Cancel
+            </button>
+            <button class="btn-card-action red-fill" style="height: 42px;" onclick="App.confirmDeleteEvent()">
+              Delete
+            </button>
+          </div>
+        `;
+        this.openModal(html);
+      },
+
+      confirmDeleteEvent() {
+        const name = this.state.deletingEvent;
+        this.state.data.events = this.state.data.events.filter(e => e.name !== name);
+        this.closeModal();
+        this.showToast(`Deleted '${name}'`);
+        this.render();
+      },
+
+      openAnnounceModal() {
+        const html = `
+          <div class="sheet-drag-handle"></div>
+          <h2 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">Publish Announcement</h2>
+          <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 14px;">Broadcast alert to all participating college General Secretaries.</p>
+          <div class="input-group">
+            <input type="text" id="announceTitle" class="melange-input" placeholder="Announcement Title" />
+          </div>
+          <div class="input-group">
+            <textarea id="announceMsg" class="form-textarea" placeholder="Write message..."></textarea>
+          </div>
+          <button class="btn-melange-blue" onclick="App.publishAnnouncement()">
+            Send Broadcast
+          </button>
+        `;
+        this.openModal(html);
+      },
+
+      publishAnnouncement() {
+        this.closeModal();
+        this.showToast("Announcement broadcasted successfully!");
+      },
+
+      // ======================================================================
+      // FORM ACTIONS & HANDLERS
+      // ======================================================================
+      togglePassword() {
+        this.state.passwordShown = !this.state.passwordShown;
+        this.render();
+      },
+
+      handleLogin() {
+        this.showToast("Logged in successfully!");
+        this.navigateTo(this.state.currentRole === 'admin' ? 'admin_dashboard' : 'gs_dashboard');
+      },
+
+      selectRole(role) {
+        this.state.currentRole = role;
+        document.getElementById('roleLabel').innerText = `Role: ${role === 'admin' ? 'Admin' : 'College GS'}`;
+        this.navigateTo(role === 'admin' ? 'admin_dashboard' : 'gs_dashboard');
+        this.showToast(`Active as ${role.toUpperCase()}`);
+      },
+
+      sendResetLink() {
+        const alertBox = document.getElementById('resetSuccessAlert');
+        if (alertBox) alertBox.style.display = 'flex';
+        this.showToast("Recovery link generated & sent!");
+      },
+
+      selectYear(el, yr) {
+        document.querySelectorAll('.pill-select-opt').forEach(p => p.classList.remove('selected'));
+        el.classList.add('selected');
+      },
+
+      saveParticipant() {
+        const nameInput = document.getElementById('addPartName');
+        const deptInput = document.getElementById('addPartDept');
+        const phoneInput = document.getElementById('addPartPhone');
+        const emailInput = document.getElementById('addPartEmail');
+        const eventInput = document.getElementById('addPartEvent');
+
+        const name = (nameInput && nameInput.value.trim()) || 'New Participant';
+        const dept = deptInput ? deptInput.value : 'Computer Science';
+        const phone = phoneInput ? phoneInput.value : '+91 99999 00000';
+        const email = emailInput ? emailInput.value : 'student@college.edu';
+        const event = eventInput ? eventInput.value : 'Battle of the Bands';
+
+        const newP = {
+          id: 'p_' + Date.now(),
+          name,
+          college: "St. Xavier's College",
+          dept,
+          year: '3rd Year',
+          phone,
+          email,
+          event,
+          status: 'Pending'
+        };
+
+        this.state.data.participants.unshift(newP);
+        this.state.data.registrations.unshift({
+          id: 'reg_' + Date.now(),
+          studentName: name,
+          initials: name.split(' ').map(n=>n[0]).join('').substring(0, 2).toUpperCase(),
+          college: "St. Xavier's College",
+          studentId: 'SX-' + Math.floor(100 + Math.random()*900),
+          event,
+          email,
+          phone,
+          year: '3rd Year',
+          dept,
+          status: 'Pending',
+          statusClass: 'badge-pending'
+        });
+
+        this.showToast(`Saved participant: ${name}`);
+        this.navigateTo('gs_participants');
+      },
+
+      stepLimit(delta) {
+        const el = document.getElementById('participantLimitVal');
+        if (el) {
+          let val = parseInt(el.innerText, 10) || 0;
+          val = Math.max(0, val + delta);
+          el.innerText = val;
+        }
+      },
+
+      saveNewEvent() {
+        const nameInput = document.getElementById('newEventName');
+        const descInput = document.getElementById('newEventDesc');
+        const catInput = document.getElementById('newEventCategory');
+        const timeInput = document.getElementById('newEventTime');
+        const venueInput = document.getElementById('newEventVenue');
+        const limitVal = document.getElementById('participantLimitVal');
+
+        const name = (nameInput && nameInput.value.trim()) || 'New Fest Event';
+        const desc = descInput ? descInput.value : 'Event description';
+        const cat = catInput ? catInput.value : 'Cultural';
+        const time = timeInput ? timeInput.value : '12:00 PM';
+        const venue = venueInput ? venueInput.value : 'Main Arena';
+        const slotsTotal = limitVal ? (parseInt(limitVal.innerText, 10) || 5) : 5;
+
+        const newEvt = {
+          id: 'e_' + Date.now(),
+          name,
+          category: cat,
+          categoryKey: 'cultural',
+          date: 'Feb 25, 2026',
+          time,
+          venue,
+          status: 'Open',
+          statusBadge: 'Registration Open',
+          badgeClass: 'badge-active',
+          slotsUsed: 0,
+          slotsTotal,
+          icon: 'fa-solid fa-star',
+          iconColor: '#2563eb',
+          desc
+        };
+
+        this.state.data.events.unshift(newEvt);
+        this.showToast(`Created event: ${name}`);
+        this.navigateTo('events_crud');
+      },
+
+      updateRegStatus(regId, newStatus) {
+        const r = this.state.data.registrations.find(x => x.id === regId);
+        if (r) {
+          r.status = newStatus;
+          r.statusClass = (newStatus === 'Approved') ? 'badge-active' : (newStatus === 'Rejected') ? 'badge-full' : 'badge-pending';
+          this.showToast(`Registration marked as ${newStatus}`);
+          this.render();
+        }
+      },
+
+      openRegDetails(regId) {
+        const r = this.state.data.registrations.find(x => x.id === regId) || this.sampleData.registrations[0];
+        this.state.selectedRegistration = r;
+        this.navigateTo('reg_details');
+      },
+
+      deleteParticipant(partId) {
+        this.state.data.participants = this.state.data.participants.filter(p => p.id !== partId);
+        this.showToast("Participant removed");
+        this.render();
+      },
+
+      addCollegePrompt() {
+        const name = prompt("Enter College Name:", "Mumbai University Tech Campus");
+        if (name) {
+          this.state.data.colleges.unshift({
+            id: 'c_' + Date.now(),
+            name,
+            status: 'Active',
+            gs: 'College Representative (GS)',
+            participants: 0
+          });
+          this.showToast(`Added college: ${name}`);
+          this.render();
+        }
+      },
+
+      addCategoryPrompt() {
+        const name = prompt("Enter Category Name:", "Literary & Debate");
+        if (name) {
+          this.state.data.categories.push({
+            id: 'cat_' + Date.now(),
+            name,
+            count: 0,
+            icon: 'fa-book'
+          });
+          this.showToast(`Added category: ${name}`);
+          this.render();
+        }
+      },
+
+      toggleCategoryFilter(val) {
+        this.state.activeCategoryFilter = val;
+        this.showToast(`Category filter ${val ? 'enabled' : 'disabled'}`);
+        this.render();
+      },
+
+      filterEvents(val) {
+        // dynamic filter
+      },
+
+      filterColleges(val) {
+        // dynamic filter
+      },
+
+      filterParticipants(val) {
+        // dynamic filter
+      },
+
+      filterRegistrations(val) {
+        // dynamic filter
+      },
+
+      clearFilters() {
+        this.showToast("Filters cleared");
+        this.navigateTo('regs_list');
+      },
+
+      applyFilters() {
+        this.showToast("Filters applied");
+      },
+
+      // ======================================================================
+      // FIGMA GALLERY PRESENTATION (ALL 5 BOARDS SIDE-BY-SIDE)
+      // ======================================================================
+      renderGallery() {
+        const container = document.getElementById('galleryContainer');
+        const boards = [
+          {
+            title: "Board 1: Mobile-First AI Authentication Design",
+            sub: "Optimized for 360px-430px smartphone screen",
+            screens: ['splash', 'login', 'role_select', 'reset_password'],
+            labels: ['Splash Screen', 'Login Screen', 'Role Based Login Screen', 'Password Reset Screen']
+          },
+          {
+            title: "Board 2: Mobile-First Admin Management UI",
+            sub: "Melange Event Management Portal (Admin)",
+            screens: ['admin_dashboard', 'admin_colleges', 'admin_events', 'admin_regs'],
+            labels: ['Dashboard Home', 'College Management', 'Event Management', 'Registration Overview']
+          },
+          {
+            title: "Board 3: Mobile-First College GS Portal UI",
+            sub: "Melange Event Management Portal (GS)",
+            screens: ['gs_dashboard', 'gs_participants', 'gs_add_participant', 'gs_reports'],
+            labels: ['Dashboard Home', 'Participant Management', 'Add Participant (Full Form)', 'Events & Reports (With download)']
+          },
+          {
+            title: "Board 4: Events & Categories Management",
+            sub: "Create, Edit, Delete & Grouping",
+            screens: ['events_crud', 'create_event', 'categories', 'events_crud'],
+            labels: ['Events List & Filter', 'Create New Event', 'Event Categories', 'Delete Event Modal']
+          },
+          {
+            title: "Board 5: Registrations Management, Filter & Empty State",
+            sub: "Comprehensive Review & Audit System",
+            screens: ['regs_list', 'regs_list', 'reg_details', 'empty_state'],
+            labels: ['Registrations (List View)', 'Filter & Sort (Sheet)', 'Registration Details', 'Empty State']
+          }
+        ];
+
+        let html = '';
+        boards.forEach(board => {
+          html += `
+            <div style="margin-bottom: 50px;">
+              <h2 class="gallery-board-title">${board.title}</h2>
+              <div class="gallery-board-sub">${board.sub}</div>
+              <div class="gallery-4cols">
+                ${board.screens.map((screenId, idx) => `
+                  <div>
+                    <div class="gallery-phone-card" style="position: relative;">
+                      <div class="phone-status-bar ${screenId === 'splash' ? 'dark-status' : ''}" style="height: 28px;">
+                        <span>12:30</span>
+                        <div class="status-notch-cam"></div>
+                        <div class="status-icons">
+                          <i class="fa-solid fa-wifi"></i>
+                          <i class="fa-solid fa-battery-full"></i>
+                        </div>
+                      </div>
+                      <div class="screen-viewport" style="flex: 1; pointer-events: auto;">
+                        ${App.views[screenId] ? App.views[screenId]() : ''}
+                      </div>
+                    </div>
+                    <div class="gallery-screen-label">${board.labels[idx]}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+      }
+    };
+
+    // Auto boot on load
+    window.addEventListener('DOMContentLoaded', () => {
+      App.init();
+    });
+  </script>
+</body>
+</html>
